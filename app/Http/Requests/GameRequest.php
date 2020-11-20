@@ -27,6 +27,7 @@ class GameRequest extends FormRequest
         return [
             "name"=>['required'],
             "app_id"=>['required', 'max:20','unique:games,app_id,'.request()->input("id").',id,deleted_at,NULL'],
+            "app_secret"=>['required', 'max:20','unique:games,app_secret,'.request()->input("id").',id,deleted_at,NULL'],
             "category_id"=>['required'],
             "game_short_code"=>['required','min:3','max:6','unique:games,game_short_code,'.request()->input("id").',id,deleted_at,NULL'],
             "game_access_token"=>['required'],

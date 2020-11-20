@@ -1,6 +1,7 @@
 <?php
 
 use App\Components\Analytics;
+use App\Http\Controllers\Admin\BotMessaseController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\GameController;
@@ -24,7 +25,6 @@ Auth::routes([
     "register"=>false
 ]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get("dashboard",[DashboardController::class,"index"])->name('dashboard');
@@ -34,6 +34,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("game/{game}",[GameController::class,"edit"])->name('gameEdit');
     Route::post("game/update",[GameController::class,"update"])->name('gameUpdate');
     Route::get("game/control/{game}",[GameController::class,"control"])->name('gameControl');
+
+    Route::get("bot-message",[BotMessaseController::class,"index"])->name('botMessage');
+    Route::get("bot-message/{game}",[BotMessaseController::class,"gameBotMessage"])->name('gameBotMessage');
+    Route::post("bot-message/{game}/add",[BotMessaseController::class,"gameBotMessageAdd"])->name('gameBotMessageAdd');
+    Route::get("bot-message/{game}/edit/{message}",[BotMessaseController::class,"gameBotMessageEdit"])->name('gameBotMessageEdit');
+    Route::post("bot-message/{game}/update/{message}",[BotMessaseController::class,"gameBotMessageUpdate"])->name('gameBotMessageUpdate');
+    Route::get("bot-message/{game}/delete/{message}",[BotMessaseController::class,"gameBotMessageDelete"])->name('gameBotMessageDelete');
 });
 Route::get("test",function(){
     $analytics=new Analytics;

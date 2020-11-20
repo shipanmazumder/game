@@ -18,6 +18,7 @@ class CreateGamesTable extends Migration
             $table->string("name");
             $table->string("game_short_code")->unique();
             $table->string("app_id")->unique();
+            $table->string("app_secret")->unique();
             $table->string("game_unique_id")->unique();
             $table->string("game_access_token")->nullable();
             $table->text("game_verify_token")->nullable();

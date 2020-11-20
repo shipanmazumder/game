@@ -67,7 +67,7 @@ class GameUserController extends Controller
         $user_unique_id=request()->input("user_unique_id");
         $leaderBoard=DB::table( $game_id.'_leader_boards')
                     ->join( $game_id.'_game_users', $game_id.'_leader_boards.game_user_id','=', $game_id.'_game_users.id')
-                    ->select( $game_id.'_game_users.name', $game_id.'_game_users.user_unique_id', $game_id.'_game_users.image', $game_id.'_leader_boards.score')
+                    ->select( $game_id.'_game_users.name', $game_id.'_game_users.image', $game_id.'_leader_boards.score')
                     ->orderBy( $game_id.'_leader_boards.score',"desc")
                     ->orderBy( $game_id.'_leader_boards.last_update_time',"asc")
                     ->take(10)
@@ -81,7 +81,7 @@ class GameUserController extends Controller
         });
         $users =DB::table($game_id.'_leader_boards')
                 ->join( $game_id.'_game_users', $game_id.'_leader_boards.game_user_id','=',$game_id.'_game_users.id')
-                ->select($game_id.'_game_users.name', $game_id.'_game_users.user_unique_id',$game_id.'_game_users.image', $game_id.'_leader_boards.score')
+                ->select($game_id.'_game_users.name',$game_id.'_game_users.image', $game_id.'_leader_boards.score')
                 ->orderBy($game_id.'_leader_boards.score',"desc")
                 ->orderBy($game_id.'_leader_boards.last_update_time',"asc")
                 ->get();

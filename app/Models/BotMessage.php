@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class BotMessage extends Model
 {
     use HasFactory;
+    protected $guarded=[];
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

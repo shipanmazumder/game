@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
 {
@@ -26,6 +27,7 @@ class GameController extends Controller
         $game=Game::create([
             "name"=>$request->name,
             "app_id"=>$request->app_id,
+            "app_secret"=>$request->app_secret,
             "category_id"=>$request->category_id,
             "description"=>$request->description,
             "game_short_code"=>$request->game_short_code,
