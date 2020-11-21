@@ -29,13 +29,12 @@ class BotController extends Controller
     }
     public function webHookPost(Request $request)
     {
-        Log::debug("test",['test'=>$request->all()]);
         if($request->object=="page"){
             foreach($request->entry as $key=>$value){
                     $webhook_event = $value['messaging'][0];
                     $time_stamp=$value['time']/1000;
                     $sender_psid=$webhook_event['sender']["id"];
-                    if($webhook_event['game_play']){
+                    if(isset($webhook_event['game_play'])){
                         $user_id=$webhook_event['game_play']['player_id'];
                         $game=Game::where("app_id",$webhook_event['game_play']['game_id'])->first();
                         if($game){
