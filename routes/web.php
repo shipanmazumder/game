@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BotMessaseController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\GameController;
+use App\Http\Controllers\Admin\GameUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ Auth::routes([
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get("dashboard",[DashboardController::class,"index"])->name('dashboard');
+    Route::get("game/users/{game}",[GameUserController::class,"index"])->name('gameUsers');
 
     Route::get("game",[GameController::class,"index"])->name("game");
     Route::post("game",[GameController::class,"store"]);
