@@ -45,7 +45,7 @@ class GameController extends Controller
             $table->dateTime("first_message_time")->nullable();
             $table->dateTime("last_message_time")->nullable();
             $table->dateTime("next_message_time")->nullable();
-            $table->string("last_message_ids")->nullable();
+            $table->string("last_message_position")->nullable();
             $table->tinyInteger("message_count")->default(0);
             $table->timestamps();
         });
@@ -58,9 +58,14 @@ class GameController extends Controller
         });
         Schema::create($game->game_short_code.'_bot_messages', function (Blueprint $table) {
             $table->id();
-            $table->string('message');
-            $table->string('image_url');
-            $table->integer('position');
+            $table->string('title')->nullable();
+            $table->string('subtitle')->nullable();
+            $table->string('image_url')->nullable();
+            $table->string('message_time')->nullable();
+            $table->string('button_title')->nullable();
+            $table->text('data')->nullable();
+            $table->integer('position')->nullable();
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
         return redirect()->route("game");

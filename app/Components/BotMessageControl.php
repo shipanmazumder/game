@@ -16,70 +16,54 @@ class BotMessageControl
         Config::set('tablePrefix', $game->game_short_code."_");
         $this->access_token=$game->game_access_token;
         $user=GameUser::where("user_unique_id",$user_id)->first();
-        if($first==true){
-            $message=BotMessage::where("position",1)->first();
-            if($user){
-                 $user->last_message_ids=$message->id;
-                 $user->sender_id=$sender_psid;
-                 $user->message_count=1;
-                 $user->first_message_time=date("Y-m-d H",$time_stamp);
-                 $user->last_message_time=date("Y-m-d H",$time_stamp);
-                 $user->next_message_time=date("Y-m-d H",strtotime("+3 hours",$time_stamp));
-                 $user->save();
-            }
-        }else{
-            $message_ids=explode(',',$user->last_message_ids);
-            $position=2;
-            $random=true;
-            while($random){
-                $rand=rand(1,5);
-                if(!in_array($rand,$message_ids)){
-                    $position=$rand;
-                    $random=false;
-                }
-            }
-            $message=BotMessage::where("position",$position)->first();
-            if($user){
-                 $user->last_message_ids=$user->last_message_ids.','.$message->id;
-                 $time_stamp=strtotime($user->first_message_time);
-                 $user->message_count+=1;
-                 $user->last_message_time=date("Y-m-d H",strtotime($user->next_message_time));
-                 $user->next_message_time=date("Y-m-d H",strtotime("+24 hours",$time_stamp));
-                 $user->save();
-            }
+        $position=$user->last_message_position+1;
+        $message=BotMessage::where("position",$position)->where("status",1)->first();
+        if($user){
+            $next_position=$position+1;
+            $next_message=BotMessage::where("position",$next_position)->first();
+             $user->last_message_position=$position;
+             $time_stamp=strtotime($user->first_message_time);
+             $user->message_count+=1;
+             $user->last_message_time=date("Y-m-d H",strtotime($user->next_message_time));
+             $next_message_time=$next_message?$next_message->time:1;
+             $user->next_message_time=date("Y-m-d H",strtotime("+".$next_message_time." hours",$time_stamp));
+             $user->save();
         }
-        $attachmentMessage=array(
-            "attachment" => array(
-                "type" => "template",
-                "payload" => array(
-                    "template_type" => "generic",
-                    "elements" => array(
-                        array(
-                            "title" => $message->message,
-                            "image_url" => $message->image_url,
-                            "subtitle" => "",
-                            "default_action"=>array(
-                                "type"=>"game_play"
-                            ),
-                            "buttons"=>array(
-                                array(
-                                    "type"=>"game_play",
-                                    "title"=>"Play Now",
+        if($message){
+            $attachmentMessage=array(
+                "attachment" => array(
+                    "type" => "template",
+                    "payload" => array(
+                        "template_type" => "generic",
+                        "elements" => array(
+                            array(
+                                "title" => $message->title,
+                                "image_url" => $message->image_url,
+                                "subtitle" => $message->subtitle,
+                                "default_action"=>array(
+                                    "type"=>"game_play"
+                                ),
+                                "buttons"=>array(
+                                    array(
+                                        "type"=>"game_play",
+                                        "title"=>$message->button_title,
+                                        "playload"=>json_decode($message->data)
+                                    )
                                 )
                             )
                         )
                     )
                 )
-            )
-        );
-        $responData=array(
-            "recipient"=>array(
-                "id"=>$sender_psid
-            ),
-            "message"=>$attachmentMessage
-        );
-        $jsonData =json_encode($responData);
-        $this->serverSend($jsonData);
+            );
+            $responData=array(
+                "recipient"=>array(
+                    "id"=>$sender_psid
+                ),
+                "message"=>$attachmentMessage
+            );
+            $jsonData =json_encode($responData);
+            $this->serverSend($jsonData);
+        }
     }
     public function serverSend($jsonData)
     {

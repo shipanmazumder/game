@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Components\Analytics;
+use App\Models\Game;
+use App\Models\GameUser;
 use Illuminate\Http\Request;
+use App\Components\Analytics;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Components\BotMessageControl;
-use App\Models\Game;
+use Illuminate\Support\Facades\Config;
 
 class BotController extends Controller
 {
@@ -39,10 +41,20 @@ class BotController extends Controller
                         $game=Game::where("app_id",$webhook_event['game_play']['game_id'])->first();
                         if($game){
                             $this->analytics->setEvent($user_id,"GameExit","Exit");
-                            $this->botControl->messageSend($game,$sender_psid,$user_id,$time_stamp,true);
+                            $this->profileUpdate($game,$user_id);
+                            //$this->botControl->messageSend($game,$sender_psid,$user_id,$time_stamp,true);
                         }
                     }
             }
+        }
+    }
+    public function profileUpdate($game,$user_id)
+    {
+        Config::set('tablePrefix', $game->game_short_code."_");
+        $user=GameUser::where("user_unique_id",$user_id)->first();
+        if($user){
+            $user->last_login_time=date("Y-m-d H:i:s");
+            $user->save();
         }
     }
 }

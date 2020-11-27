@@ -29,9 +29,13 @@ class BotMessaseController extends Controller
     {
         $this->setTable($game);
         $validatedData = $request->validate([
-            'message' => 'required',
+            'title' => 'required',
+            'subtitle' => 'nullable',
             'image_url' => 'required',
-            'position' => 'required',
+            'message_time' => 'required',
+            'button_title' => 'required',
+            'data' => 'nullable',
+            'position' => 'required'
         ]);
         $game=BotMessage::create($validatedData);
         return redirect()->route("gameBotMessage",['game'=>$game->id]);
@@ -49,9 +53,13 @@ class BotMessaseController extends Controller
     {
         $this->setTable($game);
         $validatedData = $request->validate([
-            'message' => 'required',
+            'title' => 'required',
+            'subtitle' => 'required',
             'image_url' => 'required',
-            'position' => 'required',
+            'message_time' => 'required',
+            'button_title' => 'required',
+            'data' => 'required',
+            'position' => 'required'
         ]);
         BotMessage::where("id",$request->id)->update($validatedData);
         return redirect()->route("gameBotMessage",['game'=>$game->id]);
@@ -60,6 +68,14 @@ class BotMessaseController extends Controller
     {
         $this->setTable($game);
         BotMessage::where("id",$id)->delete();
+        return redirect()->route("gameBotMessage",['game'=>$game->id]);
+    }
+    public function gameBotMessagePublish(Game $game,$id)
+    {
+        $this->setTable($game);
+        $message=BotMessage::where("id",$id)->firstOrFail();
+        $message->status=!$message->status;
+        $message->save();
         return redirect()->route("gameBotMessage",['game'=>$game->id]);
     }
     public function setTable(Game $game)

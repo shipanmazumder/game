@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("bot-message/{game}/edit/{message}",[BotMessaseController::class,"gameBotMessageEdit"])->name('gameBotMessageEdit');
     Route::post("bot-message/{game}/update/{message}",[BotMessaseController::class,"gameBotMessageUpdate"])->name('gameBotMessageUpdate');
     Route::get("bot-message/{game}/delete/{message}",[BotMessaseController::class,"gameBotMessageDelete"])->name('gameBotMessageDelete');
+    Route::get("bot-message/{game}/publish/{message}",[BotMessaseController::class,"gameBotMessagePublish"])->name('gameBotMessagePublish');
 });
 Route::get("test",function(){
     $analytics=new Analytics;

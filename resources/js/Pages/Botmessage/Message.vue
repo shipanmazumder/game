@@ -10,21 +10,43 @@
                             <form @submit.prevent="storeData">
                                 <div class="col-md-6" style="float: left;">
                                     <div class="form-group">
-                                        <label for="message">Message</label>
-                                        <textarea class="form-control" placeholder="Message" id="message" v-model="botMessage.message" cols="30" rows="5"></textarea>
-                                        <div v-if="errors.message"><span class="invalid">{{ errors.message[0] }}</span></div>
+                                        <label for="title">Title</label>
+                                        <input type="text" class="form-control" placeholder="Title" id="title" v-model="botMessage.title">
+                                        <div v-if="errors.title"><span class="invalid">{{ errors.title[0] }}</span></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="subtitle">Subtitle</label>
+                                        <input type="text" class="form-control" placeholder="Subtitle" id="subtitle" v-model="botMessage.subtitle">
+                                        <div v-if="errors.subtitle"><span class="invalid">{{ errors.subtitle[0] }}</span></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="button_title">Button Title</label>
+                                        <input type="text" class="form-control" placeholder="Button Title" id="button_title" v-model="botMessage.button_title">
+                                        <div v-if="errors.button_title"><span class="invalid">{{ errors.button_title[0] }}</span></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="image_url">Image Url</label>
-                                        <input type="text" min="1" class="form-control" placeholder="Image Url" id="image_url" v-model="botMessage.image_url">
+                                        <input type="text"  class="form-control" placeholder="Image Url" id="image_url" v-model="botMessage.image_url">
                                         <div v-if="errors.image_url"><span class="invalid">{{ errors.image_url[0] }}</span></div>
+                                    </div>
+                                </div>
+                                  <div class="col-md-6" style="float: left;">
+                                    <div class="form-group">
+                                        <label for="message_time">Message Time</label>
+                                        <input type="text"  class="form-control" placeholder="Message Time" id="message_time" v-model="botMessage.message_time">
+                                        <div v-if="errors.message_time"><span class="invalid">{{ errors.message_time[0] }}</span></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="position">Position</label>
                                         <input type="number" min="1" class="form-control" placeholder="Position" id="position" v-model="botMessage.position">
                                         <div v-if="errors.position"><span class="invalid">{{ errors.position[0] }}</span></div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <div class="form-group">
+                                        <label for="data">Data</label>
+                                         <textarea class="form-control" placeholder="Data" id="data" v-model="botMessage.data" cols="30" rows="5"></textarea>
+                                        <div v-if="errors.data"><span class="invalid">{{ errors.data[0] }}</span></div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Add</button>
                                 </div>
                             </form>
                         </div>
@@ -35,21 +57,43 @@
                         <div class="card-header">Bot Message Add For {{game.name}}</div>
                         <div class="card-body">
                             <form @submit.prevent="updateData">
-                                <div class="col-md-6" style="float: left;">
+                                 <div class="col-md-6" style="float: left;">
                                     <div class="form-group">
-                                        <label for="message">Message</label>
-                                        <textarea class="form-control" placeholder="Message" id="message" v-model="botMessage.message" cols="30" rows="5"></textarea>
-                                        <div v-if="errors.message"><span class="invalid">{{ errors.message[0] }}</span></div>
+                                        <label for="title">Title</label>
+                                        <input type="text" class="form-control" placeholder="Title" id="title" v-model="botMessage.title">
+                                        <div v-if="errors.title"><span class="invalid">{{ errors.title[0] }}</span></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="subtitle">Subtitle</label>
+                                        <input type="text" class="form-control" placeholder="Subtitle" id="subtitle" v-model="botMessage.subtitle">
+                                        <div v-if="errors.subtitle"><span class="invalid">{{ errors.subtitle[0] }}</span></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="button_title">Button Title</label>
+                                        <input type="text" class="form-control" placeholder="Button Title" id="button_title" v-model="botMessage.button_title">
+                                        <div v-if="errors.button_title"><span class="invalid">{{ errors.button_title[0] }}</span></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="image_url">Image Url</label>
-                                        <input type="text" min="1" class="form-control" placeholder="Image Url" id="image_url" v-model="botMessage.image_url">
+                                        <input type="text"  class="form-control" placeholder="Image Url" id="image_url" v-model="botMessage.image_url">
                                         <div v-if="errors.image_url"><span class="invalid">{{ errors.image_url[0] }}</span></div>
+                                    </div>
+                                </div>
+                                  <div class="col-md-6" style="float: left;">
+                                    <div class="form-group">
+                                        <label for="message_time">Message Time</label>
+                                        <input type="text"  class="form-control" placeholder="Message Time" id="message_time" v-model="botMessage.message_time">
+                                        <div v-if="errors.message_time"><span class="invalid">{{ errors.message_time[0] }}</span></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="position">Position</label>
                                         <input type="number" min="1" class="form-control" placeholder="Position" id="position" v-model="botMessage.position">
                                         <div v-if="errors.position"><span class="invalid">{{ errors.position[0] }}</span></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="data">Data</label>
+                                         <textarea class="form-control" placeholder="Data" id="data" v-model="botMessage.data" cols="30" rows="5"></textarea>
+                                        <div v-if="errors.data"><span class="invalid">{{ errors.data[0] }}</span></div>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
@@ -68,8 +112,12 @@
                                     <thead>
                                         <tr>
                                             <th>Sl.</th>
-                                            <th>Message</th>
+                                            <th>Title</th>
+                                            <th>Subtitle</th>
+                                            <th>Button Title</th>
+                                            <th>Message Time</th>
                                             <th>Image Url</th>
+                                            <th>Data</th>
                                             <th>Position</th>
                                             <th>Action</th>
                                         </tr>
@@ -77,12 +125,23 @@
                                     <tbody>
                                       <tr v-for="(message,index) in messages" :key="index">
                                         <td>{{++index}}</td>
-                                        <td>{{message.message}}</td>
+                                        <td>{{message.title}}</td>
+                                        <td>{{message.subtitle}}</td>
+                                        <td>{{message.button_title}}</td>
+                                        <td>{{message.message_time}}</td>
                                         <td>{{message.image_url}}</td>
+                                        <td>{{message.data}}</td>
                                         <td>{{message.position}}</td>
                                         <td>
                                             <inertia-link class="btn  btn-primary" :href="$route('gameBotMessageEdit',{game:game.id,message:message.id})">
-                                                    <font-awesome-icon icon="edit" /></inertia-link>
+                                                    <font-awesome-icon icon="edit" />
+                                            </inertia-link>
+
+                                            <inertia-link :href="$route('gameBotMessagePublish',{game:game.id,message:message.id})">
+                                                <button :class="[message.status==1 ? 'btn  btn-success' : 'btn  btn-danger' ]">
+                                                    <font-awesome-icon icon="check-circle" />
+                                                </button>
+                                            </inertia-link>
                                             <button class="btn btn-danger" @click="deleteData(message.id)">
                                                     <font-awesome-icon icon="trash" />
                                             </button>
@@ -113,9 +172,13 @@ export default {
     data() {
         return {
             botMessage: {
-                message: "",
+                title: "",
+                subtitle: "",
+                button_title: "",
                 image_url: "",
+                message_time: "",
                 position: "",
+                data: "",
             }
         }
 
@@ -161,9 +224,13 @@ export default {
         },
         reset() {
             this.botMessage = {
-                message: "",
+                title: "",
+                subtitle: "",
+                button_title: "",
                 image_url: "",
+                message_time: "",
                 position: "",
+                data: "",
             }
         }
     }
