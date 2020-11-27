@@ -58,7 +58,7 @@ class BotController extends Controller
         if($user){
             $user->last_message_position=0;
             $user->sender_id=$sender_psid;
-            $user->message_count+=1;
+            $user->message_count=0;
             $user->last_message_time=date("Y-m-d H");
             $user->next_message_time=date("Y-m-d H",strtotime("+".$next_message_time." hours"));
             $user->last_login_time=date("Y-m-d H:i:s");
@@ -70,6 +70,7 @@ class BotController extends Controller
                 "user_unique_id"=>$user_id,
                 "sender_id"=>$sender_psid,
                 "image"=>null,
+                "message_count"=>0,
                 "last_message_position"=>0,
                 "next_message_time"=>date("Y-m-d H",strtotime("+".$next_message_time." hours")),
                 "last_login_time"=>date("Y-m-d H:i:s")
