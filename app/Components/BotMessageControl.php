@@ -22,11 +22,10 @@ class BotMessageControl
             $next_position=$position+1;
             $next_message=BotMessage::where("position",$next_position)->first();
              $user->last_message_position=$position;
-             $time_stamp=strtotime($user->first_message_time);
              $user->message_count+=1;
              $user->last_message_time=date("Y-m-d H",strtotime($user->next_message_time));
-             $next_message_time=$next_message?$next_message->time:1;
-             $user->next_message_time=date("Y-m-d H",strtotime("+".$next_message_time." hours",$time_stamp));
+             $next_message_time=$next_message?$next_message->message_time:1;
+             $user->next_message_time=date("Y-m-d H",strtotime("+".$next_message_time." hours"));
              $user->save();
         }
         if($message){
