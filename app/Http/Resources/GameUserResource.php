@@ -15,7 +15,7 @@ class GameUserResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "name"=>$this->gameUser->name,
+            "name"=>$this->gameUser->name??"",
             "user_unique_id"=>$this->gameUser->user_unique_id,
             "last_login_time"=>date("d-m-Y h:i:s A",strtotime($this->gameUser->last_login_time)),
             "days"=>$this->getDays($this->gameUser->last_login_time),
