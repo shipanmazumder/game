@@ -60,7 +60,7 @@ class BotMessageControl
                         "id"=>$sender_psid
                     ),
                     "message"=>array(
-                        "text"=>"Hello"
+                        "text"=>$attachmentMessage
                     )
                 );
                 $jsonData =json_encode($responData);
