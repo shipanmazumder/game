@@ -16,53 +16,74 @@ class BotMessageControl
         Config::set('tablePrefix', $game->game_short_code."_");
         $this->access_token=$game->game_access_token;
         $user=GameUser::where("user_unique_id",$user_id)->first();
-        $position=1;
+        $position=$user->last_message_position+1;
         $message=BotMessage::where("position",$position)->where("status",1)->first();
         if($user){
             $next_position=$position+1;
             $next_message=BotMessage::where("position",$next_position)->first();
              $user->last_message_position=$position;
              $user->message_count+=1;
-             $user->last_message_time=date("Y-m-d H");
+             $user->last_message_time=date("Y-m-d H",strtotime($user->next_message_time));
              $next_message_time=$next_message?$next_message->message_time:1;
              $user->next_message_time=date("Y-m-d H",strtotime("+".$next_message_time." hours"));
              $user->save();
         }
         if($message){
-        }
-                $attachmentMessage=array(
-                    "attachment" => array(
-                        "type" => "template",
-                        "payload" => array(
-                            "template_type" => "generic",
-                            "elements" => array(
-                                array(
-                                    "title" => "Hello",
-                                    "image_url" =>"https://boxstack.s3.ap-south-1.amazonaws.com/b6595be946a63cbd8be956cf75fea16c.png" ,
-                                    "subtitle" => "",
-                                    "default_action"=>array(
-                                        "type"=>"game_play"
-                                    ),
-                                    "buttons"=>array(
-                                        array(
-                                            "type"=>"game_play",
-                                            "title"=>"play",
-                                            // "playload"=>json_decode($message->data)
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                );
-                $responData=array(
-                    "recipient"=>array(
-                        "id"=>$sender_psid
+            // $attachmentMessage=array(
+            //     "attachment" => array(
+            //         "type" => "template",
+            //         "payload" => array(
+            //             "template_type" => "generic",
+            //             "elements" => array(
+            //                 array(
+            //                     "title" => $message->title,
+            //                     "image_url" => $message->image_url,
+            //                     "subtitle" => $message->subtitle,
+            //                     "default_action"=>array(
+            //                         "type"=>"game_play"
+            //                     ),
+            //                     "buttons"=>array(
+            //                         array(
+            //                             "type"=>"game_play",
+            //                             "title"=>$message->button_title,
+            //                             "playload"=>json_decode($message->data)
+            //                         )
+            //                     )
+            //                 )
+            //             )
+            //         )
+            //     )
+            // );
+            $attachmentMessage=array (
+                'payload' =>
+                array (
+                  'template_type' => 'generic',
+                  'elements' =>
+                  array (
+                    'title' => '<TITLE_TEXT>',
+                    'image_url' => '<IMAGE_URL_TO_DISPLAY>',
+                    'subtitle' => '<SUBTITLE_TEXT>',
+                    'default_action' =>
+                    array (
+                      'type' => 'game_play',
                     ),
-                    "message"=>$attachmentMessage
-                );
-                $jsonData =json_encode($responData);
-                $this->serverSend($jsonData);
+                    'buttons' =>
+                    array (
+                      'type' => 'game_play',
+                      'title' => 'Play',
+                    ),
+                  ),
+                ),
+            );
+            $responData=array(
+                "recipient"=>array(
+                    "id"=>$sender_psid
+                ),
+                "message"=>$attachmentMessage
+            );
+            $jsonData =json_encode($responData);
+            $this->serverSend($jsonData);
+        }
     }
     public function serverSend($jsonData)
     {
