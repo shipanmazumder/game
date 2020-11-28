@@ -98,7 +98,9 @@ class BotMessageControl
                 "recipient"=>array(
                     "id"=>$sender_psid
                 ),
-                "message"=>$attachmentMessage
+                "message"=>array(
+                    "text"=>"hello"
+                )
             );
             $jsonData =json_encode($responData);
             $this->serverSend($jsonData);
