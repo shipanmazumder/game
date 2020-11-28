@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Config;
 
 class BotMessageControl
 {
-    private $access_token="";
+    private $access_token="EAAEZCnHBY9S4BAM5Ux8rBIA07sNbF2VCIql1rc04vUDh1nFPKIp2K8YZCObaOnlmsbZB2QYVSsWvi0MCOZAupABfHaIAkIlOcBsIMZAQgoXE63fX7rwUazHoBp1gqJajwsRvrZADbAVWSB9zetZAjUZBycewXanBHArM9gp8velZCrgjZC876whGAO";
 
     public function messageSend($game,$sender_psid,$user_id,$time_stamp,$first)
     {
         Config::set('tablePrefix', $game->game_short_code."_");
-        $this->access_token="EAAEZCnHBY9S4BAM5Ux8rBIA07sNbF2VCIql1rc04vUDh1nFPKIp2K8YZCObaOnlmsbZB2QYVSsWvi0MCOZAupABfHaIAkIlOcBsIMZAQgoXE63fX7rwUazHoBp1gqJajwsRvrZADbAVWSB9zetZAjUZBycewXanBHArM9gp8velZCrgjZC876whGAO";
+        // $this->access_token="EAAEZCnHBY9S4BAM5Ux8rBIA07sNbF2VCIql1rc04vUDh1nFPKIp2K8YZCObaOnlmsbZB2QYVSsWvi0MCOZAupABfHaIAkIlOcBsIMZAQgoXE63fX7rwUazHoBp1gqJajwsRvrZADbAVWSB9zetZAjUZBycewXanBHArM9gp8velZCrgjZC876whGAO";
         $user=GameUser::where("user_unique_id",$user_id)->first();
         $position=1;
         $message=BotMessage::where("position",$position)->where("status",1)->first();
