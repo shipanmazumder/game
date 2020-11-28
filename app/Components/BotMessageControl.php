@@ -62,7 +62,7 @@ class BotMessageControl
                         "elements" => array(
                             array(
                                 "title" => $message->title,
-                                "image_url" =>"	https://boxstack.s3.ap-south-1.amazonaws.com/b6595be946a63cbd8be956cf75fea16c.png",
+                                "image_url" =>$message->image_url,
                                 "subtitle" => "ss",
                                 "default_action"=>array(
                                     "type"=>"game_play"
