@@ -33,8 +33,8 @@ class BotMessaseController extends Controller
             'subtitle' => 'nullable',
             'image_url' => 'required',
             'message_time' => 'required',
-            'button_title' => 'required',
-            'data' => 'nullable',
+            'button_title' => 'nullable',
+            'data' => 'required',
             'position' => 'required'
         ]);
         BotMessage::create($validatedData);
@@ -57,8 +57,8 @@ class BotMessaseController extends Controller
             'subtitle' => 'nullable',
             'image_url' => 'required',
             'message_time' => 'required',
-            'button_title' => 'required',
-            'data' => 'nullable',
+            'button_title' => 'nullable',
+            'data' => 'required',
             'position' => 'required'
         ]);
         BotMessage::where("id",$request->id)->update($validatedData);
