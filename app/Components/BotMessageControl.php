@@ -23,7 +23,7 @@ class BotMessageControl
             $next_message=BotMessage::where("position",$next_position)->first();
              $user->last_message_position=$position;
              $user->message_count+=1;
-             $user->last_message_time=date("Y-m-d H",strtotime($user->next_message_time));
+             $user->last_message_time=date("Y-m-d H");
              $next_message_time=$next_message?$next_message->message_time:1;
              $user->next_message_time=date("Y-m-d H",strtotime("+".$next_message_time." hours"));
              $user->save();
@@ -71,7 +71,7 @@ class BotMessageControl
                                     array(
                                         "type"=>"game_play",
                                         "title"=>$message->button_title,
-                                        // "playload"=>$message->data?json_decode($message->data):""
+                                        "playload"=>$message->data?json_decode($message->data):""
                                     )
                                 )
                             )
