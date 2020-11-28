@@ -71,7 +71,7 @@ class BotMessageControl
                                     array(
                                         "type"=>"game_play",
                                         "title"=>$message->button_title,
-                                        "playload"=>'{"name":"John","age":30,"city":"New York"}'
+                                        "playload"=>"$message->data"
                                     )
                                 )
                             )
