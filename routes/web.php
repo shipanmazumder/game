@@ -52,7 +52,7 @@ Route::get("test",function(){
     Config::set('tablePrefix',"draw_");
   $data=file_get_contents(public_path("data.json"));
   $users=collect(json_decode($data,true)['users']);
-  foreach ($users->chunk(10) as $chunk):
+  foreach ($users->chunk(100) as $chunk):
     $data=[];
       foreach ($chunk as $key=>$user){
           $last_login_time=date("Y-m-d",strtotime("-".$user['Day']." days"));
