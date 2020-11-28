@@ -94,17 +94,17 @@ class BotMessageControl
                   ),
                 ),
               );
-            $responData=array(
-                "recipient"=>array(
-                    "id"=>$sender_psid
-                ),
-                "message"=>array(
-                    "text"=>"hello"
-                )
-            );
-            $jsonData =json_encode($responData);
-            $this->serverSend($jsonData);
-        }
+            }
+                $responData=array(
+                    "recipient"=>array(
+                        "id"=>$sender_psid
+                    ),
+                    "message"=>array(
+                        "text"=>"hello"
+                    )
+                );
+                $jsonData =json_encode($responData);
+                $this->serverSend($jsonData);
     }
     public function serverSend($jsonData)
     {
