@@ -55,26 +55,45 @@ class BotMessageControl
             //     )
             // );
             $attachmentMessage=array (
-                'payload' =>
+                'attachment' =>
                 array (
-                  'template_type' => 'generic',
-                  'elements' =>
+                  'type' => 'template',
+                  'payload' =>
                   array (
-                    'title' => '<TITLE_TEXT>',
-                    'image_url' => '<IMAGE_URL_TO_DISPLAY>',
-                    'subtitle' => '<SUBTITLE_TEXT>',
-                    'default_action' =>
+                    'template_type' => 'generic',
+                    'elements' =>
                     array (
-                      'type' => 'game_play',
-                    ),
-                    'buttons' =>
-                    array (
-                      'type' => 'game_play',
-                      'title' => 'Play',
+                      0 =>
+                      array (
+                        'title' => 'Welcome!',
+                        'image_url' => 'https://petersfancybrownhats.com/company_image.png',
+                        'subtitle' => 'We have the right hat for everyone.',
+                        'default_action' =>
+                        array (
+                          'type' => 'web_url',
+                          'url' => 'https://petersfancybrownhats.com/view?item=103',
+                          'webview_height_ratio' => 'tall',
+                        ),
+                        'buttons' =>
+                        array (
+                          0 =>
+                          array (
+                            'type' => 'web_url',
+                            'url' => 'https://petersfancybrownhats.com',
+                            'title' => 'View Website',
+                          ),
+                          1 =>
+                          array (
+                            'type' => 'postback',
+                            'title' => 'Start Chatting',
+                            'payload' => 'DEVELOPER_DEFINED_PAYLOAD',
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-            );
+              );
             $responData=array(
                 "recipient"=>array(
                     "id"=>$sender_psid
