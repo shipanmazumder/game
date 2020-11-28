@@ -20,7 +20,7 @@ class CreateGamesTable extends Migration
             $table->string("app_id")->unique();
             $table->string("app_secret")->unique();
             $table->string("game_unique_id")->unique();
-            $table->string("game_access_token")->nullable();
+            $table->text("game_access_token")->nullable();
             $table->text("game_verify_token")->nullable();
             $table->unsignedBigInteger("category_id");
             $table->text("description")->nullable();

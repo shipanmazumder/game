@@ -52,7 +52,8 @@ class GameController extends Controller
         Schema::create($game->game_short_code.'_leader_boards', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('game_user_id')->index();
-            $table->unsignedBigInteger('score')->default(0)->index();
+            $table->unsignedBigInteger('score')->default(0);
+            $table->integer('game_lavel')->default(0);
             $table->dateTime('last_update_time');
             $table->timestamps();
         });

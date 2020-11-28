@@ -29,82 +29,40 @@ class BotMessageControl
              $user->save();
         }
         if($message){
-            // $attachmentMessage=array(
-            //     "attachment" => array(
-            //         "type" => "template",
-            //         "payload" => array(
-            //             "template_type" => "generic",
-            //             "elements" => array(
-            //                 array(
-            //                     "title" => $message->title,
-            //                     "image_url" => $message->image_url,
-            //                     "subtitle" => $message->subtitle,
-            //                     "default_action"=>array(
-            //                         "type"=>"game_play"
-            //                     ),
-            //                     "buttons"=>array(
-            //                         array(
-            //                             "type"=>"game_play",
-            //                             "title"=>$message->button_title,
-            //                             "playload"=>json_decode($message->data)
-            //                         )
-            //                     )
-            //                 )
-            //             )
-            //         )
-            //     )
-            // );
-            $attachmentMessage=array (
-                'attachment' =>
-                array (
-                  'type' => 'template',
-                  'payload' =>
-                  array (
-                    'template_type' => 'generic',
-                    'elements' =>
-                    array (
-                      0 =>
-                      array (
-                        'title' => 'Welcome!',
-                        'image_url' => 'https://petersfancybrownhats.com/company_image.png',
-                        'subtitle' => 'We have the right hat for everyone.',
-                        'default_action' =>
-                        array (
-                          'type' => 'web_url',
-                          'url' => 'https://petersfancybrownhats.com/view?item=103',
-                          'webview_height_ratio' => 'tall',
-                        ),
-                        'buttons' =>
-                        array (
-                          0 =>
-                          array (
-                            'type' => 'web_url',
-                            'url' => 'https://petersfancybrownhats.com',
-                            'title' => 'View Website',
-                          ),
-                          1 =>
-                          array (
-                            'type' => 'postback',
-                            'title' => 'Start Chatting',
-                            'payload' => 'DEVELOPER_DEFINED_PAYLOAD',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }
-                $responData=array(
-                    "recipient"=>array(
-                        "id"=>$sender_psid
-                    ),
-                    "message"=>array(
-                        "text"=>"hello"
+            $attachmentMessage=array(
+                "attachment" => array(
+                    "type" => "template",
+                    "payload" => array(
+                        "template_type" => "generic",
+                        "elements" => array(
+                            array(
+                                "title" => $message->title,
+                                "image_url" => $message->image_url,
+                                "subtitle" => $message->subtitle,
+                                "default_action"=>array(
+                                    "type"=>"game_play"
+                                ),
+                                "buttons"=>array(
+                                    array(
+                                        "type"=>"game_play",
+                                        "title"=>$message->button_title,
+                                        "playload"=>$message->data?json_decode($message->data):""
+                                    )
+                                )
+                            )
+                        )
                     )
-                );
-                $jsonData =json_encode($responData);
-                $this->serverSend($jsonData);
+                )
+            );
+            $responData=array(
+                "recipient"=>array(
+                    "id"=>$sender_psid
+                ),
+                "message"=>$attachmentMessage
+            );
+            $jsonData =json_encode($responData);
+            $this->serverSend($jsonData);
+        }
     }
     public function serverSend($jsonData)
     {
