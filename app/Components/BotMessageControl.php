@@ -29,6 +29,31 @@ class BotMessageControl
              $user->save();
         }
         if($message){
+            // $attachmentMessage=array(
+            //     "attachment" => array(
+            //         "type" => "template",
+            //         "payload" => array(
+            //             "template_type" => "generic",
+            //             "elements" => array(
+            //                 array(
+            //                     "title" => $message->title,
+            //                     "image_url" => $message->image_url,
+            //                     "subtitle" => $message->subtitle,
+            //                     "default_action"=>array(
+            //                         "type"=>"game_play"
+            //                     ),
+            //                     "buttons"=>array(
+            //                         array(
+            //                             "type"=>"game_play",
+            //                             "title"=>$message->button_title,
+            //                             "playload"=>$message->data?json_decode($message->data):""
+            //                         )
+            //                     )
+            //                 )
+            //             )
+            //         )
+            //     )
+            // );
             $attachmentMessage=array(
                 "attachment" => array(
                     "type" => "template",
@@ -36,17 +61,17 @@ class BotMessageControl
                         "template_type" => "generic",
                         "elements" => array(
                             array(
-                                "title" => $message->title,
-                                "image_url" => $message->image_url,
-                                "subtitle" => $message->subtitle,
+                                "title" => "Hello",
+                                "image_url" =>"	https://boxstack.s3.ap-south-1.amazonaws.com/b6595be946a63cbd8be956cf75fea16c.png",
+                                "subtitle" => "ss",
                                 "default_action"=>array(
                                     "type"=>"game_play"
                                 ),
                                 "buttons"=>array(
                                     array(
                                         "type"=>"game_play",
-                                        "title"=>$message->button_title,
-                                        "playload"=>$message->data?json_decode($message->data):""
+                                        "title"=>"Play",
+                                        // "playload"=>$message->data?json_decode($message->data):""
                                     )
                                 )
                             )
