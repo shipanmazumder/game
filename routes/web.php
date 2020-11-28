@@ -1,11 +1,14 @@
 <?php
 
+use App\Models\GameUser;
+use App\Models\LeaderBoard;
 use App\Components\Analytics;
-use App\Http\Controllers\Admin\BotMessaseController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\GameController;
 use App\Http\Controllers\Admin\GameUserController;
+use App\Http\Controllers\Admin\BotMessaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +49,23 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("bot-message/{game}/publish/{message}",[BotMessaseController::class,"gameBotMessagePublish"])->name('gameBotMessagePublish');
 });
 Route::get("test",function(){
-    $analytics=new Analytics;
-    $rr=$analytics->setEvent("565","Message","SheduleMessage","ss");
-    echo $rr;
-    });
+    Config::set('tablePrefix',"draw_");
+  $data=file_get_contents(public_path("data.json"));
+  $users=collect(json_decode($data,true)['users']);
+  foreach ($users->chunk(10) as $chunk):
+    $data=[];
+      foreach ($chunk as $key=>$user){
+          $last_login_time=date("Y-m-d",strtotime("-".$user['Day']." days"));
+          $newUser=GameUser::create([
+              "user_unique_id"=>$key,
+              "last_login_time"=>$last_login_time
+          ]);
+          LeaderBoard::create([
+                'score'=>0,
+                'game_user_id'=>$newUser->id,
+                'game_level'=>$user['Level'],
+                'last_update_time'=>date("Y-m-d H:i:s"),
+        ]);
+      }
+    endforeach;
+});

@@ -51,6 +51,7 @@ class GameUserController extends Controller
             LeaderBoard::create([
                 'score'=>$request->score,
                 'game_user_id'=>$newUser->id,
+                'game_level'=>$request->game_level,
                 'last_update_time'=>date("Y-m-d H:i:s"),
             ]);
         }
