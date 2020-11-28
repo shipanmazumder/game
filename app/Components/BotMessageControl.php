@@ -67,7 +67,13 @@ class BotMessageControl
                                 "default_action"=>array(
                                     "type"=>"game_play"
                                 ),
-                                "buttons"=>json_decode($message->data)
+                                "buttons"=>array(
+                                    array(
+                                        "type"=>"game_play",
+                                        "title"=>$message->button_title,
+                                        "playload"=>"$message->data"
+                                    )
+                                )
                             )
                         )
                     )

@@ -42,8 +42,8 @@ class BotController extends Controller
                         $game=Game::where("app_id",$webhook_event['game_play']['game_id'])->first();
                         if($game){
                             $this->analytics->setEvent($user_id,"GameExit","Exit");
-                            // $this->profileUpdate($game,$user_id,$sender_psid);
-                            $this->botControl->messageSend($game,$sender_psid,$user_id,$time_stamp,true);
+                            $this->profileUpdate($game,$user_id,$sender_psid);
+                            // $this->botControl->messageSend($game,$sender_psid,$user_id,$time_stamp,true);
                         }
                     }
             }
