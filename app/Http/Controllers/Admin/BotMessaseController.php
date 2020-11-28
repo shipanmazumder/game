@@ -37,7 +37,7 @@ class BotMessaseController extends Controller
             'data' => 'nullable',
             'position' => 'required'
         ]);
-        $game=BotMessage::create($validatedData);
+        BotMessage::create($validatedData);
         return redirect()->route("gameBotMessage",['game'=>$game->id]);
     }
     public function gameBotMessageEdit(Game $game,$id)
