@@ -61,7 +61,7 @@ class BotMessageControl
                         "template_type" => "generic",
                         "elements" => array(
                             array(
-                                "title" => "Hello",
+                                "title" => $message->title,
                                 "image_url" =>"	https://boxstack.s3.ap-south-1.amazonaws.com/b6595be946a63cbd8be956cf75fea16c.png",
                                 "subtitle" => "ss",
                                 "default_action"=>array(
