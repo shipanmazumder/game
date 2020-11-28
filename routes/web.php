@@ -3,6 +3,7 @@
 use App\Models\GameUser;
 use App\Models\LeaderBoard;
 use App\Components\Analytics;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\DashboardController;
@@ -56,13 +57,13 @@ Route::get("test",function(){
     $data=[];
       foreach ($chunk as $key=>$user){
           $last_login_time=date("Y-m-d",strtotime("-".$user['Day']." days"));
-          $newUser=GameUser::create([
+          $newUser= DB::table('draw_game_users')->insertGetId([
               "user_unique_id"=>$key,
               "last_login_time"=>$last_login_time
           ]);
-          LeaderBoard::create([
+          DB::table('draw_leader_boards')->insert([
                 'score'=>0,
-                'game_user_id'=>$newUser->id,
+                'game_user_id'=>$newUser,
                 'game_level'=>$user['Level'],
                 'last_update_time'=>date("Y-m-d H:i:s"),
         ]);
