@@ -16,7 +16,7 @@ class BotMessageControl
         Config::set('tablePrefix', $game->game_short_code."_");
         $this->access_token=$game->game_access_token;
         $user=GameUser::where("user_unique_id",$user_id)->first();
-        $position=$user->last_message_position+1;
+        $position=1;
         $message=BotMessage::where("position",$position)->where("status",1)->first();
         if($user){
             $next_position=$position+1;
