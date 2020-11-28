@@ -63,7 +63,7 @@ class BotMessageControl
                             array(
                                 "title" => $message->title,
                                 "image_url" =>$message->image_url,
-                                "subtitle" => "ss",
+                                "subtitle" => $message->subtitle,
                                 "default_action"=>array(
                                     "type"=>"game_play"
                                 ),
