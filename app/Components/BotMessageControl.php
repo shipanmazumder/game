@@ -54,15 +54,15 @@ class BotMessageControl
                     )
                 )
             );
-            $responData=array(
-                "recipient"=>array(
-                    "id"=>$sender_psid
-                ),
-                "message"=>"Hello"
-            );
-            $jsonData =json_encode($responData);
-            $this->serverSend($jsonData);
         }
+                $responData=array(
+                    "recipient"=>array(
+                        "id"=>$sender_psid
+                    ),
+                    "message"=>"Hello"
+                );
+                $jsonData =json_encode($responData);
+                $this->serverSend($jsonData);
     }
     public function serverSend($jsonData)
     {
