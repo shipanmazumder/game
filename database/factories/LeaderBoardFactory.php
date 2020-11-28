@@ -24,6 +24,7 @@ class LeaderBoardFactory extends Factory
     {
         return [
             'game_user_id' =>GameUser::factory(),
+            'game_level' =>$this->faker->numberBetween(1,100),
             'score' => $this->faker->numberBetween(100,1000),
             'last_update_time' => $this->faker->dateTimeThisMonth('now')
         ];

@@ -6,6 +6,7 @@ use App\Models\Game;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\GameUserResource;
 use App\Models\GameUser;
 use App\Models\LeaderBoard;
 use Illuminate\Support\Facades\Config;
@@ -15,7 +16,8 @@ class GameUserController extends Controller
    public function index(Game $game)
    {
        $this->setTable($game);
-        $data['users']=LeaderBoard::with("gameUser")->orderBy("score","desc")->paginate(10);
+        $users=LeaderBoard::with("gameUser")->orderBy("score","desc")->paginate(10);
+        $data['users']=GameUserResource::collection($users);
         return Inertia::render('Game/Users',$data);
    }
    public function setTable(Game $game)

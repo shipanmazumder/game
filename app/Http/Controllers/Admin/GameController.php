@@ -53,7 +53,7 @@ class GameController extends Controller
             $table->id();
             $table->unsignedBigInteger('game_user_id')->index();
             $table->unsignedBigInteger('score')->default(0);
-            $table->integer('game_lavel')->default(0);
+            $table->integer('game_level')->default(0);
             $table->dateTime('last_update_time');
             $table->timestamps();
         });
