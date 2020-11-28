@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Game;
 use App\Components\Analytics;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Components\BotMessageControl;
-use App\Models\Game;
 
 class BotMessage extends Command
 {
