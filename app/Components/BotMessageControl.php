@@ -71,7 +71,7 @@ class BotMessageControl
                                     array(
                                         "type"=>"game_play",
                                         "title"=>$message->button_title,
-                                        "playload"=>$message->data?$message->data:""
+                                        "playload"=>$message->data?"$message->data":""
                                     )
                                 )
                             )
