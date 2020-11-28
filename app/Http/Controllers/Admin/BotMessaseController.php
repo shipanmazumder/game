@@ -54,11 +54,11 @@ class BotMessaseController extends Controller
         $this->setTable($game);
         $validatedData = $request->validate([
             'title' => 'required',
-            'subtitle' => 'required',
+            'subtitle' => 'nullable',
             'image_url' => 'required',
             'message_time' => 'required',
             'button_title' => 'required',
-            'data' => 'required',
+            'data' => 'nullable',
             'position' => 'required'
         ]);
         BotMessage::where("id",$request->id)->update($validatedData);
