@@ -6,16 +6,15 @@ use App\Models\Game;
 use App\Models\GameUser;
 use App\Models\BotMessage;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
 
 class BotMessageControl
 {
-    private $access_token="EAAEZCnHBY9S4BAM5Ux8rBIA07sNbF2VCIql1rc04vUDh1nFPKIp2K8YZCObaOnlmsbZB2QYVSsWvi0MCOZAupABfHaIAkIlOcBsIMZAQgoXE63fX7rwUazHoBp1gqJajwsRvrZADbAVWSB9zetZAjUZBycewXanBHArM9gp8velZCrgjZC876whGAO";
+    private $access_token="";
 
     public function messageSend($game,$sender_psid,$user_id,$time_stamp,$first)
     {
         Config::set('tablePrefix', $game->game_short_code."_");
-        // $this->access_token="EAAEZCnHBY9S4BAM5Ux8rBIA07sNbF2VCIql1rc04vUDh1nFPKIp2K8YZCObaOnlmsbZB2QYVSsWvi0MCOZAupABfHaIAkIlOcBsIMZAQgoXE63fX7rwUazHoBp1gqJajwsRvrZADbAVWSB9zetZAjUZBycewXanBHArM9gp8velZCrgjZC876whGAO";
+        $this->access_token=$game->game_access_token;
         $user=GameUser::where("user_unique_id",$user_id)->first();
         $position=1;
         $message=BotMessage::where("position",$position)->where("status",1)->first();
@@ -47,7 +46,7 @@ class BotMessageControl
                                     array(
                                         "type"=>"game_play",
                                         "title"=>$message->button_title,
-                                        "playload"=>json_decode($message->data)
+                                        // "playload"=>json_decode($message->data)
                                     )
                                 )
                             )
@@ -55,17 +54,15 @@ class BotMessageControl
                     )
                 )
             );
+            $responData=array(
+                "recipient"=>array(
+                    "id"=>$sender_psid
+                ),
+                "message"=>$attachmentMessage
+            );
+            $jsonData =json_encode($responData);
+            $this->serverSend($jsonData);
         }
-                $responData=array(
-                    "recipient"=>array(
-                        "id"=>$sender_psid
-                    ),
-                    "message"=>array(
-                        "text"=>$attachmentMessage
-                    )
-                );
-                $jsonData =json_encode($responData);
-                $this->serverSend($jsonData);
     }
     public function serverSend($jsonData)
     {
@@ -75,6 +72,5 @@ class BotMessageControl
             curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
             $result = curl_exec($ch); // user will get the message
-            Log::debug('message',["result"=>$result]);
     }
 }
