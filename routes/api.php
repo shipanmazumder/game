@@ -26,5 +26,5 @@ Route::get("/show-leaderboard",[GameUserController::class],'leaderBoard')->name(
 Route::post("/webhook",[BotController::class,'webHookPost']);
 Route::get("/webhook",[BotController::class,'webHookGet']);
 
-Route::post("/delete-user","API\GameUserController@deleteUser");
-Route::get("/deletion","API\GameUserController@userDeletion")->name("userDeletion");
+Route::get("/delete-user",[GameUserController::class,'deleteUser']);
+Route::get("/deletion",[GameUserController::class,'userDeletion'])->name("userDeletion");
