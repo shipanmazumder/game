@@ -111,36 +111,35 @@ class GameUserController extends Controller
     {
         $signed_request = $_POST['signed_request'];
         $data = $this->parse_signed_request($signed_request);
-        Log::debug('data',['signed_data'=>$data]);
-        // if($data==null){
-        //     return $data;
-        // }
-        // $user_id = $data['user_id'];
+        if($data['game_short_code']==""){
+            return $data;
+        }
+        $user_id = $data['user_id'];
+        Config::set('tablePrefix', $data['game_short_code']."_");
+        $confirmation_code = Str::random(8);
+        while (DB::table('user_delete_histories')->where("confirmation_code", $confirmation_code)->exists()) {
+          $confirmation_code = Str::random(8);
+        }
 
-        // $confirmation_code = Str::random(8);
-        // while (DB::table('user_delete_histories')->where("confirmation_code", $confirmation_code)->exists()) {
-        //   $confirmation_code = Str::random(8);
-        // }
+        DB::beginTransaction();
+        try {
+            $user=GameUser::where("user_unique_id",$user_id)->first();
+            if($user){
+                LeaderBoard::where("game_user_id",$user->id)->delete();
+                $user->delete();
+                DB::table('user_delete_histories')->insert(["id"=>Str::uuid(),'confirmation_code'=>$confirmation_code]);
+            }
+            DB::commit();
 
-        // DB::beginTransaction();
-        // try {
-        //     $user=GameUser::where("user_unique_id",$user_id)->first();
-        //     if($user){
-        //         LeaderBoard::where("game_user_id",$user->id)->delete();
-        //         $user->delete();
-        //         DB::table('user_delete_histories')->insert(["id"=>Str::uuid(),'confirmation_code'=>$confirmation_code]);
-        //     }
-        //     DB::commit();
+        }catch(\Exception $exception){
+            DB::rollBack();
+        }
 
-        // }catch(\Exception $exception){
-        //     DB::rollBack();
-        // }
-
-        // $status_url = route("userDeletion",['id'=>$confirmation_code]); // URL to track the deletion
-        // $data = array(
-        //   'url' => $status_url,
-        //   'confirmation_code' => $confirmation_code
-        // );
+        $status_url = route("userDeletion",['id'=>$confirmation_code]); // URL to track the deletion
+        $data = array(
+          'url' => $status_url,
+          'confirmation_code' => $confirmation_code
+        );
 
         echo json_encode($data);
     }
@@ -150,28 +149,29 @@ class GameUserController extends Controller
         $confirmation_code=\request()->input("id");
         $exits=DB::table('user_delete_histories')->where("confirmation_code", $confirmation_code)->exists();
         if($exits){
-            return view('success');
+            return response()->json(['status'=>true,"delete"=>"Success"],200);
         }else{
-            return view('fail');
+
+            return response()->json(['status'=>false,"delete"=>"Not Success"],404);
         }
 
     }
     public function parse_signed_request($signed_request) {
           list($encoded_sig, $payload) = explode('.', $signed_request, 2);
-
-          $secret = "c31330161aa60c04f19a0a5681470d17"; // Use your app secret here
-
           // decode the data
           $sig = $this->base64_url_decode($encoded_sig);
           $data = json_decode($this->base64_url_decode($payload), true);
 
           // confirm the signature
-        //   $expected_sig = hash_hmac('sha256', $payload, $secret, $raw = true);
-        //   if ($sig !== $expected_sig) {
-        //     error_log('Bad Signed JSON signature!');
-        //     return null;
-        //   }
-
+          $game_short_code="";
+          $games=Game::where("status",1)->get();
+          foreach($games as $key=>$value){
+              $expected_sig = hash_hmac('sha256', $payload, $value->app_secret, $raw = true);
+              if ($sig === $expected_sig) {
+                  $game_short_code=$value->game_short_code;
+              }
+          }
+          $data['game_short_code']=$game_short_code;
           return $data;
     }
     public function base64_url_decode($input) {
