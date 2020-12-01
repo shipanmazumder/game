@@ -52,6 +52,22 @@ Route::group(['middleware' => ['auth']], function () {
 Route::get("test",function(){
     Config::set('tablePrefix',"draw_");
   $data=file_get_contents(public_path("data.json"));
-  echo count(json_decode($data,true)['users']);
-
+  $users=collect(json_decode($data,true)['users']);
+  foreach ($users->chunk(100) as $chunk):
+    $data=[];
+      foreach ($chunk as $key=>$user){
+        //   $last_login_time=date("Y-m-d",strtotime("-".$user['Day']." days"));
+        //   $newUser= DB::table('draw_game_users')->insertGetId([
+        //       "user_unique_id"=>$key,
+        //       "last_login_time"=>$last_login_time
+        //   ]);
+        //   DB::table('draw_leader_boards')->insert([
+        //         'score'=>0,
+        //         'game_user_id'=>$newUser,
+        //         'game_level'=>$user['Level'],
+        //         'last_update_time'=>date("Y-m-d H:i:s"),
+        // ]);
+      }
+    endforeach;
 });
+
