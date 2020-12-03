@@ -18,7 +18,7 @@ class BotMessageControl
         $user=GameUser::where("user_unique_id",$user_id)->first();
         $position=$user->last_message_position+1;
         $message=BotMessage::where("position",$position)->where("status",1)->first();
-        if($user){
+        if($user && $message){
             $next_position=$position+1;
             $next_message=BotMessage::where("position",$next_position)->first();
              $user->last_message_position=$position;
