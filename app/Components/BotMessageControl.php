@@ -67,7 +67,11 @@ class BotMessageControl
                                 "default_action"=>array(
                                     "type"=>"game_play"
                                 ),
-                                "buttons"=>json_decode($message->data)
+                                "buttons"=>array (
+                                    'type' => 'web_url',
+                                    'url' => 'https://petersfancybrownhats.com',
+                                    'title' => 'View Website',
+                                  )
                             )
                         )
                     )
