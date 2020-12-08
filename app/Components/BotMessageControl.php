@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Models\GameUser;
 use App\Models\BotMessage;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 class BotMessageControl
 {
@@ -126,5 +127,6 @@ class BotMessageControl
             curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
             $result = curl_exec($ch); // user will get the message
+            Log::debug('message',['bot'=>$result]);
     }
 }
