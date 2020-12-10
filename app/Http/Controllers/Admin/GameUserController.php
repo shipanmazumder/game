@@ -16,7 +16,7 @@ class GameUserController extends Controller
    public function index(Game $game)
    {
        $this->setTable($game);
-        $users=LeaderBoard::with("gameUser")->orderBy("last_login_time","desc")->paginate(10);
+        $users=LeaderBoard::with("gameUser")->orderBy("score","desc")->paginate(10);
         $data['users']=GameUserResource::collection($users);
         return Inertia::render('Game/Users',$data);
    }
