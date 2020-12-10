@@ -18,6 +18,8 @@
                         <th>Level</th>
                         <th>Days</th>
                         <th>Last Login</th>
+                        <th>Last Message Time</th>
+                        <th>Next Message Time</th>
                       </tr>
                     </thead>
                     <tbody v-if="users.data.length > 0">
@@ -29,6 +31,8 @@
                         <td>{{ user.level }}</td>
                         <td>{{ user.days }}</td>
                         <td>{{ user.last_login_time }}</td>
+                        <td>{{ user.last_message_time }}</td>
+                        <td>{{ user.next_message_time }}</td>
                       </tr>
                       <tr>
                         <td colspan="4"><pagination :meta="users.meta"></pagination></td>

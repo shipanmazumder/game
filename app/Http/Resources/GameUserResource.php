@@ -18,6 +18,8 @@ class GameUserResource extends JsonResource
             "name"=>$this->gameUser->name??"",
             "user_unique_id"=>$this->gameUser->user_unique_id,
             "last_login_time"=>date("d-m-Y h:i:s A",strtotime($this->gameUser->last_login_time)),
+            "last_message_time"=>date("d-m-Y h:i:s A",strtotime($this->gameUser->last_message_time)),
+            "next_message_time"=>date("d-m-Y h:i:s A",strtotime($this->gameUser->next_message_time)),
             "days"=>$this->getDays($this->gameUser->last_login_time),
             "level"=>$this->game_level,
             "score"=>$this->score,
