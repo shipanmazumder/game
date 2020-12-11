@@ -1,11 +1,7 @@
 <?php
 
-use App\Models\GameUser;
-use App\Models\LeaderBoard;
-use App\Components\Analytics;
-use Illuminate\Support\Facades\DB;
+use App\Components\BotMessageControl;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\GameController;
 use App\Http\Controllers\Admin\GameUserController;
@@ -50,9 +46,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("bot-message/{game}/publish/{message}",[BotMessaseController::class,"gameBotMessagePublish"])->name('gameBotMessagePublish');
 });
 Route::get("test",function(){
-    Config::set('tablePrefix',"draw_");
   $data=file_get_contents(public_path("data.json"));
   $users=collect(json_decode($data,true)['users']);
+
   foreach ($users->chunk(100) as $chunk):
     $data=[];
       foreach ($chunk as $key=>$user){
@@ -67,6 +63,55 @@ Route::get("test",function(){
         //         'game_level'=>$user['Level'],
         //         'last_update_time'=>date("Y-m-d H:i:s"),
         // ]);
+      }
+    endforeach;
+});
+Route::get("/send-message",function(){
+    set_time_limit(300);
+    ini_set("memory_limit",-1);
+  $data=file_get_contents(public_path("data.json"));
+  $users=collect(json_decode($data,true)['users']);
+  $attachmentMessage=array(
+    "attachment" => array(
+        "type" => "template",
+        "payload" => array(
+            "template_type" => "generic",
+            "elements" => array(
+                array(
+                    "title" =>"Can you draw it properly?",
+                    "image_url" =>"https://s3.ap-south-1.amazonaws.com/doelcampus.instantgames/draw/1.png",
+                    "subtitle" => "",
+                    "default_action"=>array(
+                        "type"=>"game_play"
+                    ),
+                    "buttons"=>array(
+                            array(
+                                "type"=>"game_play",
+                                "title"=>"Draw Now"
+                            )
+                        )
+                )
+            )
+        )
+    )
+);
+  foreach ($users->chunk(100) as $chunk):
+    $data=[];
+      foreach ($chunk as $key=>$user){
+
+        $responData=array(
+            "recipient"=>array(
+                "id"=>$key
+            ),
+            "message"=>$attachmentMessage
+        );
+        $jsonData =json_encode($responData);
+        $url = 'https://graph.facebook.com/v8.0/me/messages?access_token=EAAEInhQd4XIBAIrXVZBDX2f9CZBWzxyRITCLrl9bcDj8VWREZAAUZBAuOxrMt7vowLor8BBNHIXSw47ZANu3H85GHzSz36rJ75yuXDIUFBRpMsZAZBv0yPZCmxftELvFZBUfwp19XjiEXRZBjwtwqU7m6CmbH9qWWsWbg9FzGr95BZArk4WYAIJ8fY9';
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        $result = curl_exec($ch); // user will get the message
       }
     endforeach;
 });
