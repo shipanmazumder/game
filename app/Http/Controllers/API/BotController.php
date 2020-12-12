@@ -43,7 +43,7 @@ class BotController extends Controller
                         if($game){
                             $this->analytics->setEvent($user_id,"GameExit","Exit");
                             $this->profileUpdate($game,$user_id,$sender_psid);
-                            $this->botControl->messageSend($game,$sender_psid,$user_id,$time_stamp,true);
+                            // $this->botControl->messageSend($game,$sender_psid,$user_id,$time_stamp,true);
                         }
                     }
             }
