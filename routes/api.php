@@ -60,7 +60,7 @@ Route::get("/sendMessage",function(Request $request){
     );
     $responData=array(
         "recipient"=>array(
-            "id"=>$users->sender_psid
+            "id"=>$users->sender_id
         ),
         "message"=>$attachmentMessage
     );
