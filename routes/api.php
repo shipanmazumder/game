@@ -31,8 +31,9 @@ Route::get("/webhook",[BotController::class,'webHookGet']);
 
 Route::post("/delete-user",[GameUserController::class,'deleteUser']);
 Route::get("/deletion",[GameUserController::class,'userDeletion'])->name("userDeletion");
-Route::get("/sendMessage",function(){
+Route::get("/sendMessage",function(Request $request){
     $games=Game::where("status",1)->latest()->first();
+    Config::set('tablePrefix', $game->game_short_code."_");
     $users=DB::table('happy_game_users')
     ->where("user_unique_id","5438317146193745")
     ->whereNotNull("sender_id")
