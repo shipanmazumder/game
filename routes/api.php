@@ -5,6 +5,7 @@ use App\Models\BotMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\API\BotController;
 use App\Http\Controllers\API\GameUserController;
 
@@ -33,7 +34,7 @@ Route::post("/delete-user",[GameUserController::class,'deleteUser']);
 Route::get("/deletion",[GameUserController::class,'userDeletion'])->name("userDeletion");
 Route::get("/sendMessage",function(Request $request){
     $games=Game::where("status",1)->latest()->first();
-    Config::set('tablePrefix', $game->game_short_code."_");
+    Config::set('tablePrefix', $games->game_short_code."_");
     $users=DB::table('happy_game_users')
     ->where("user_unique_id","5438317146193745")
     ->whereNotNull("sender_id")
